@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Точка безубыточности · Сорокина · сентябрь 2026</title>
+  <meta name="description" content="Управленческий брифинг: дневная норма на ноль, разрыв, экономика точки." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="project-office-theme">
+  <header class="po-top">
+    <div class="po-top__inner">
+      <div class="po-top__brand">Точка <em>Сорокина</em></div>
+      <div class="po-top__meta">Проектный офис · сентябрь 2026 · 22 дня</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="po-sheet">
+      <p class="po-back">Модель P&amp;L · не портфолио · внутренняя страница точки</p>
+
+      <section class="po-hero">
+        <div class="po-hero__body">
+          <p class="po-kicker">Вердикт</p>
+          <h1 class="po-hero__title">Чтобы выйти в ноль — ~20&nbsp;400&nbsp;₽ в день</h1>
+          <p class="po-hero__lead" id="hero-lead"></p>
+        </div>
+        <div class="po-hero__aside" id="hero-aside"></div>
+      </section>
+
+      <!-- 01 PLAN -->
+      <section class="po-block" id="plan">
+        <div class="po-block__head">
+          <span class="po-num">01</span>
+          <div>
+            <h2 class="po-h2">План дня</h2>
+            <p class="po-lead">Что продавать каждый день при текущем миксе напитки / еда, чтобы покрыть фикс.</p>
+          </div>
+        </div>
+
+        <div class="po-decision" id="decision-banner"></div>
+        <div class="po-compare" id="compare-grid"></div>
+
+        <div class="po-panel">
+          <p class="po-kicker">Факт vs норма</p>
+          <div class="bars-compare" id="chart-day-compare" role="img" aria-label="Сравнение факта и нормы"></div>
+        </div>
+      </section>
+
+      <!-- 02 GAP -->
+      <section class="po-block" id="gap">
+        <div class="po-block__head">
+          <span class="po-num">02</span>
+          <div>
+            <h2 class="po-h2">Разрыв до нуля</h2>
+            <p class="po-lead">На сколько не хватает сейчас и чем закрывать.</p>
+          </div>
+        </div>
+        <div class="po-grid-2">
+          <div class="po-detail__card" id="gap-card"></div>
+          <div class="po-panel">
+            <p class="po-kicker">Выручка месяца</p>
+            <div class="bars-h" id="chart-revenue-gap" role="img" aria-label="Выручка факт и цель"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 ECONOMICS -->
+      <section class="po-block" id="economics">
+        <div class="po-block__head">
+          <span class="po-num">03</span>
+          <div>
+            <h2 class="po-h2">Экономика месяца</h2>
+            <p class="po-lead">Выручка → переменные → вклад → фикс → результат.</p>
+          </div>
+        </div>
+        <div class="po-panel">
+          <p class="po-kicker">Водопад</p>
+          <div class="bars-flow" id="chart-waterfall" role="img" aria-label="Водопад P and L"></div>
+        </div>
+        <div class="po-grid-2 mt">
+          <div class="po-panel">
+            <p class="po-kicker">Структура выручки</p>
+            <div class="bars-h" id="chart-rev-mix" role="img" aria-label="Структура выручки"></div>
+          </div>
+          <div class="po-panel">
+            <p class="po-kicker">Постоянные расходы</p>
+            <div class="bars-h" id="chart-fixed" role="img" aria-label="Структура фикса"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 MIX -->
+      <section class="po-block" id="mix">
+        <div class="po-block__head">
+          <span class="po-num">04</span>
+          <div>
+            <h2 class="po-h2">Ассортимент</h2>
+            <p class="po-lead">Куда смотреть по объёму в первую очередь.</p>
+          </div>
+        </div>
+        <div class="po-grid-2">
+          <div class="po-panel">
+            <p class="po-kicker">Топ напитков, шт/мес</p>
+            <div class="bars-h" id="chart-drinks" role="img" aria-label="Топ напитков"></div>
+          </div>
+          <div class="po-panel">
+            <p class="po-kicker">Еда, шт/мес</p>
+            <div class="bars-h" id="chart-food" role="img" aria-label="Еда"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 OPEN QUESTIONS -->
+      <section class="po-block" id="open">
+        <div class="po-block__head">
+          <span class="po-num">05</span>
+          <div>
+            <h2 class="po-h2">Уточнить с бариста</h2>
+            <p class="po-lead">Плавающие допущения, на которых стоит математика. После ответов пересчитаем модель.</p>
+          </div>
+        </div>
+        <div class="po-open" id="open-questions"></div>
+        <div class="po-grid-2 mt">
+          <div class="po-detail__card po-detail__card--ok" id="confirmed-card"></div>
+          <div class="po-detail__card" id="impact-card"></div>
+        </div>
+      </section>
+
+      <!-- 06 DETAIL -->
+      <section class="po-block" id="detail">
+        <div class="po-block__head">
+          <span class="po-num">06</span>
+          <div>
+            <h2 class="po-h2">Детализация</h2>
+            <p class="po-lead">Таблицы для проверки расчёта.</p>
+          </div>
+        </div>
+        <details class="po-details">
+          <summary>Напитки — шт, выручка, себестоимость, маржа/шт</summary>
+          <div class="table-wrap"><table id="tbl-drinks"><thead><tr><th>Позиция</th><th>Шт</th><th>Выручка</th><th>Себест.</th><th>Маржа/шт</th></tr></thead><tbody></tbody></table></div>
+        </details>
+        <details class="po-details">
+          <summary>Еда — шт и выручка · наценка к закупу Закариеву</summary>
+          <div class="table-wrap"><table id="tbl-food"><thead><tr><th>Позиция</th><th>Шт</th><th>Выручка</th></tr></thead><tbody></tbody></table></div>
+        </details>
+      </section>
+    </div>
+  </main>
+
+  <footer class="po-foot">
+    <div class="po-foot__inner">
+      <p>Точка <em>Сорокина</em> · БЦ, 2 этаж</p>
+      <p>Источник: касса сентября · УПД зерна · закуп Закариеву · фикс точки</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
