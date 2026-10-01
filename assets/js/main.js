@@ -758,7 +758,7 @@ function fillEconomics(d) {
       { label: "Бариста", value: f.barista_total, cls: "accent", lab: rub(f.barista_total) },
       { label: "Аренда", value: f.rent, cls: "", lab: rub(f.rent) },
       { label: "Кофемашина", value: f.machine, cls: "soft", lab: rub(f.machine) },
-      { label: "Касса+нет", value: f.kassa + f.internet, cls: "soft", lab: rub(Math.round(f.kassa + f.internet)) },
+      { label: "Касса + интернет", value: f.kassa + f.internet, cls: "soft", lab: rub(Math.round(f.kassa + f.internet)) },
     ],
     f.total
   );
