@@ -1,0 +1,43 @@
+name: Save barista answers
+
+on:
+  repository_dispatch:
+    types: [save-barista-answers]
+
+permissions:
+  contents: write
+
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Write answers
+        env:
+          PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          payload = json.loads(os.environ["PAYLOAD"])
+          out = {
+            "updated_at": payload.get("updated_at"),
+            "updated_by": payload.get("updated_by") or "сотрудник",
+            "answers": payload.get("answers") or {},
+          }
+          path = Path("data/barista-answers.json")
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print("wrote", path)
+          PY
+      - name: Commit and push
+        run: |
+          git config user.name "employee-bot"
+          git config user.email "employee-bot@users.noreply.github.com"
+          git add data/barista-answers.json
+          if git diff --staged --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Update employee answers from form."
+          git push

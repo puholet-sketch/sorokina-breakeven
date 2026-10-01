@@ -58,7 +58,7 @@ CONFIRMED = [
     "Молоко: 87,28 ₽/л.",
     "Весь платёж Закариеву за сентябрь = закуп на точку.",
     "Росгосстрах 160 000 ₽ = аренда сентябрь + октябрь → 80 000 ₽/мес.",
-    "ЗП бариста 5 000 ₽/день × дни с продажами.",
+    "ЗП сотрудника точки 5 000 ₽/день × дни с продажами.",
 ]
 
 tpl = r"""const DATA = __DATA__;
@@ -347,14 +347,21 @@ function fillMix(d) {
   );
 }
 
+const ANSWERS_URL = "data/barista-answers.json";
+const ANSWERS_LS_KEY = "sorokina_employee_answers_v1";
+
 function fillOpen() {
   document.getElementById("open-questions").innerHTML = OPEN.map(
     (q) => `<article class="po-q">
       <span class="po-q__id">${q.id}</span>
-      <div>
+      <div class="po-q__body">
         <h3 class="po-q__title">${q.title}</h3>
         <p class="po-q__now"><strong>В модели сейчас:</strong> ${q.now}</p>
-        <p class="po-q__ask">Уточнить: ${q.ask}</p>
+        <p class="po-q__ask">${q.ask}</p>
+        <label class="po-field po-field--block">
+          <span class="po-field__label">Ответ сотрудника</span>
+          <textarea id="ans-${q.id}" name="${q.id}" rows="3" placeholder="Введите ответ…"></textarea>
+        </label>
       </div>
     </article>`
   ).join("");
@@ -370,8 +377,173 @@ function fillOpen() {
     <ul class="po-detail__list">
       <li>Q1–Q2 напрямую меняют себестоимость чашки и маржу напитков.</li>
       <li>Q3–Q7 двигают переменные → вклад → норму выручки на день.</li>
-      <li>После ответов бариста пересчитаем блок «План дня» и точку безубыточности.</li>
+      <li>После ответов сотрудника пересчитаем блок «План дня» и точку безубыточности.</li>
     </ul>`;
+}
+
+function collectAnswers() {
+  const answers = {};
+  OPEN.forEach((q) => {
+    const el = document.getElementById(`ans-${q.id}`);
+    answers[q.id] = el ? el.value.trim() : "";
+  });
+  return {
+    updated_at: new Date().toISOString(),
+    updated_by: (document.getElementById("ans-name")?.value || "").trim() || "сотрудник",
+    answers,
+  };
+}
+
+function applyAnswers(payload) {
+  if (!payload) return;
+  if (payload.updated_by) {
+    const name = document.getElementById("ans-name");
+    if (name) name.value = payload.updated_by === "сотрудник" ? "" : payload.updated_by;
+  }
+  const answers = payload.answers || {};
+  OPEN.forEach((q) => {
+    const el = document.getElementById(`ans-${q.id}`);
+    if (el && answers[q.id] != null) el.value = answers[q.id];
+  });
+}
+
+function setSaveStatus(text, kind) {
+  const el = document.getElementById("save-status");
+  if (!el) return;
+  el.textContent = text;
+  el.dataset.kind = kind || "";
+}
+
+async function loadAnswers() {
+  let remote = null;
+  try {
+    const res = await fetch(`${ANSWERS_URL}?t=${Date.now()}`, { cache: "no-store" });
+    if (res.ok) remote = await res.json();
+  } catch (_) {}
+
+  let local = null;
+  try {
+    local = JSON.parse(localStorage.getItem(ANSWERS_LS_KEY) || "null");
+  } catch (_) {}
+
+  const remoteTs = remote?.updated_at ? Date.parse(remote.updated_at) : 0;
+  const localTs = local?.updated_at ? Date.parse(local.updated_at) : 0;
+  const best = localTs > remoteTs ? local : remote;
+  if (best && best.answers) {
+    applyAnswers(best);
+    if (best.updated_at) {
+      const when = new Date(best.updated_at).toLocaleString("ru-RU");
+      setSaveStatus(`Загружены ответы от ${best.updated_by || "сотрудника"} · ${when}`, "ok");
+    }
+  }
+}
+
+function utf8ToBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+async function saveAnswersToGitHub(payload) {
+  const cfg = window.SOROKINA_SAVE || {};
+  const token = cfg.token;
+  if (!token) throw new Error("Нет токена сохранения (config.js)");
+
+  const owner = cfg.owner || "puholet-sketch";
+  const repo = cfg.repo || "sorokina-breakeven";
+  const path = cfg.path || "data/barista-answers.json";
+  const api = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+  const headers = {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+
+  let sha;
+  const cur = await fetch(api, { headers });
+  if (cur.ok) {
+    const j = await cur.json();
+    sha = j.sha;
+  }
+
+  const body = {
+    message: "Update employee answers from point form.",
+    content: utf8ToBase64(JSON.stringify(payload, null, 2) + "\n"),
+    branch: cfg.branch || "main",
+  };
+  if (sha) body.sha = sha;
+
+  const put = await fetch(api, {
+    method: "PUT",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!put.ok) {
+    const err = await put.text();
+    throw new Error(`GitHub ${put.status}: ${err.slice(0, 180)}`);
+  }
+}
+
+async function saveAnswersToMail(payload) {
+  const res = await fetch("https://formsubmit.co/ajax/sorvanovon@yandex.ru", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      _subject: "Сорокина: ответы сотрудника",
+      _template: "box",
+      _captcha: "false",
+      name: payload.updated_by,
+      updated_at: payload.updated_at,
+      answers_json: JSON.stringify(payload.answers, null, 2),
+      ...payload.answers,
+    }),
+  });
+  if (!res.ok) {
+    const t = await res.text();
+    throw new Error(`mail ${res.status}: ${t.slice(0, 120)}`);
+  }
+}
+
+function bindEmployeeForm() {
+  const form = document.getElementById("employee-form");
+  if (!form) return;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("btn-save-answers");
+    const payload = collectAnswers();
+    const filled = Object.values(payload.answers).filter(Boolean).length;
+    if (!filled) {
+      setSaveStatus("Заполните хотя бы одно поле ответа.", "err");
+      return;
+    }
+    localStorage.setItem(ANSWERS_LS_KEY, JSON.stringify(payload));
+    if (btn) btn.disabled = true;
+    setSaveStatus("Сохраняю…", "");
+    let githubOk = false;
+    let mailOk = false;
+    let errMsg = "";
+    try {
+      if (window.SOROKINA_SAVE && window.SOROKINA_SAVE.token) {
+        await saveAnswersToGitHub(payload);
+        githubOk = true;
+      }
+    } catch (err) {
+      errMsg = err.message;
+    }
+    try {
+      await saveAnswersToMail(payload);
+      mailOk = true;
+    } catch (err) {
+      if (!errMsg) errMsg = err.message;
+    }
+    const when = new Date(payload.updated_at).toLocaleString("ru-RU");
+    if (githubOk) {
+      setSaveStatus(`Сохранено на сервере · ${when}. Можно перезаписать позже.`, "ok");
+    } else if (mailOk) {
+      setSaveStatus(`Сохранено (почта + этот браузер) · ${when}. Можно перезаписать позже.`, "ok");
+    } else {
+      setSaveStatus(`Сохранено только в этом браузере. Сервер: ${errMsg || "ошибка"}`, "err");
+    }
+    if (btn) btn.disabled = false;
+  });
 }
 
 function fillTables(d) {
@@ -401,6 +573,8 @@ fillEconomics(DATA);
 fillMix(DATA);
 fillOpen();
 fillTables(DATA);
+bindEmployeeForm();
+loadAnswers();
 
 // tips in static HTML (section lead)
 document.querySelectorAll('.po-tip[data-tip="vklad"]').forEach((el) => {

@@ -119,11 +119,23 @@
         <div class="po-block__head">
           <span class="po-num">05</span>
           <div>
-            <h2 class="po-h2">Уточнить с бариста</h2>
-            <p class="po-lead">Плавающие допущения, на которых стоит математика. После ответов пересчитаем модель.</p>
+            <h2 class="po-h2">У сотрудника</h2>
+            <p class="po-lead">Заполните ответы в полях ниже и нажмите «Сохранить». Данные перезапишутся на сервере — по ним потом пересчитаем модель.</p>
           </div>
         </div>
-        <div class="po-open" id="open-questions"></div>
+        <form class="po-form" id="employee-form" autocomplete="on">
+          <div class="po-form__meta">
+            <label class="po-field">
+              <span class="po-field__label">Ваше имя</span>
+              <input type="text" id="ans-name" name="name" placeholder="Как подписать ответы" />
+            </label>
+          </div>
+          <div class="po-open" id="open-questions"></div>
+          <div class="po-form__actions">
+            <button type="submit" class="po-btn" id="btn-save-answers">Сохранить ответы</button>
+            <p class="po-form__status" id="save-status" aria-live="polite"></p>
+          </div>
+        </form>
         <div class="po-grid-2 mt">
           <div class="po-detail__card po-detail__card--ok" id="confirmed-card"></div>
           <div class="po-detail__card" id="impact-card"></div>
@@ -158,6 +170,7 @@
     </div>
   </footer>
 
+  <script src="assets/js/config.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
