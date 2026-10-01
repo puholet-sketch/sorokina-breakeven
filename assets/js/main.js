@@ -496,59 +496,283 @@ const DATA = {
 ;
 const OPEN = [
   {
-    "id": "Q1",
-    "title": "Число шотов по объёму",
-    "now": "Получено от Андрея (01.10): 250 мл = 2 шота (пролив ~15 с); 350 мл = 2 шота; флэт уайт 350 = 4 шота. В модели: 450 = 2; флэт 250 = 2; эспрессо/тоник = 1; айс латте = 2.",
-    "ask": "Осталось уточнить только если рецепт эспрессо-тоника / бамбла другой. Иначе закрыто."
-  },
-  {
-    "id": "Q2",
-    "title": "Расход молока (мл) по напиткам",
-    "now": "Андрей подтвердил таблицу мл в модели (капучино/латте/раф/флэт/какао/шоколад/матча/мокко — без изменений).",
-    "ask": "Закрыто. Пишите только если фактические мл отличаются."
-  },
-  {
     "id": "Q3",
-    "title": "Какао / горячий шоколад / матча / мокко",
-    "now": "Какао и горячий шоколад: 1 800 ₽/кг. В модели ~15 г/напиток ≈ 27 ₽. Матча пока ~8 ₽ (старая оценка).",
-    "ask": "Сколько грамм какао/шоколада на порцию? Сколько стоит и сколько грамм матча?"
-  },
-  {
-    "id": "Q4",
-    "title": "Стакан + крышка",
-    "now": "Андрей подтвердил ~12 ₽/комплект. В модели 12 ₽ на все размеры.",
-    "ask": "Закрыто, если нет разницы 250/350/450."
-  },
-  {
-    "id": "Q5",
-    "title": "Альтернативное молоко",
-    "now": "Вся линейка 166 ₽/л. В COGS заложена оценка: порция ~100 мл, qty≈выручка/60 ₽.",
-    "ask": "Сколько мл альтернативного молока на одну доплату и типичная цена доплаты в чеке?"
+    "title": "Граммы какао / матча",
+    "now": "Какао и горячий шоколад: 1 800 ₽/кг. В модели ~15 г ≈ 27 ₽/напиток. Матча ~8 ₽ — оценка без ₽/кг и грамм.",
+    "ask": "Сколько грамм какао/шоколада на порцию? Цена матча ₽/кг и граммы на порцию?"
   },
   {
     "id": "Q6",
-    "title": "Чай, лимонады, фреш",
-    "now": "Фреш 100 ₽/порция; чай 15 ₽/порция — учтено. Лимонады: пока только стакан 12 ₽.",
-    "ask": "Себестоимость порции лимонада?"
-  },
-  {
-    "id": "Q7",
-    "title": "Раф — состав",
-    "now": "Сироп: 20 г на 350 мл, 30 г на 450 мл. Цена сиропа в модели — оценка 500 ₽/кг (нет факта).",
-    "ask": "Закупная цена сиропа раф ₽/кг (или ₽/бутылка + объём)? Сливки отдельно есть?"
+    "title": "Лимонад",
+    "now": "Фреш 100 ₽ и чай 15 ₽ учтены. Лимонад: в модели только стакан 12 ₽, сырьё неизвестно.",
+    "ask": "Себестоимость одной порции лимонада (₽)?"
   }
 ];
-const CONFIRMED = [
-  "Ответы Андрея получены 01.10.2026 и внесены в модель.",
-  "Доза эспрессо 20 г · зерно 1 700 ₽/кг.",
-  "Молоко: 87,28 ₽/л · таблица мл подтверждена.",
-  "Шоты: 250/350 = 2; флэт 350 = 4; 450 = 2.",
-  "Какао/шоколад 1 800 ₽/кг · стакан+крышка ~12 ₽.",
-  "Альт. молоко 166 ₽/л · фреш 100 ₽ · чай 15 ₽.",
-  "Весь платёж Закариеву за сентябрь = закуп на точку.",
-  "Росгосстрах 160 000 ₽ = аренда сен+окт → 80 000 ₽/мес.",
-  "ЗП сотрудника точки 5 000 ₽/день × дни с продажами."
-];
+const PRICEBOOK = {
+  "version": 1,
+  "updated": "2026-10-01",
+  "source": "Андрей 01.10.2026 + модель сентября",
+  "note": "Справочник драйверов расчёта. Можно заменить файл целиком и пересобрать main.js — цифры подтянутся в UI.",
+  "groups": [
+    {
+      "id": "coffee",
+      "title": "Зерно и шоты",
+      "items": [
+        {
+          "key": "coffee_kg_vat",
+          "label": "Зерно",
+          "value": 1700,
+          "unit": "₽/кг",
+          "status": "confirmed"
+        },
+        {
+          "key": "dose_g",
+          "label": "Доза эспрессо",
+          "value": 20,
+          "unit": "г",
+          "status": "confirmed"
+        },
+        {
+          "key": "shot_cost",
+          "label": "Себестоимость шота",
+          "value": 34,
+          "unit": "₽",
+          "status": "derived",
+          "note": "1700 × 20/1000"
+        },
+        {
+          "key": "shots_250_350",
+          "label": "Шоты 250 / 350 мл",
+          "value": 2,
+          "unit": "шт",
+          "status": "confirmed",
+          "note": "пролив 250 ≈ 15 с"
+        },
+        {
+          "key": "shots_450",
+          "label": "Шоты 450 мл",
+          "value": 2,
+          "unit": "шт",
+          "status": "assumed",
+          "note": "как 350-класс"
+        },
+        {
+          "key": "shots_flat_350",
+          "label": "Флэт уайт 350",
+          "value": 4,
+          "unit": "шота",
+          "status": "confirmed"
+        },
+        {
+          "key": "shots_espresso_sku",
+          "label": "Эспрессо / доп. / тоник",
+          "value": 1,
+          "unit": "шот",
+          "status": "assumed"
+        }
+      ]
+    },
+    {
+      "id": "milk",
+      "title": "Молоко",
+      "items": [
+        {
+          "key": "milk_per_l",
+          "label": "Молоко",
+          "value": 87.28,
+          "unit": "₽/л",
+          "status": "confirmed"
+        },
+        {
+          "key": "milk_ml_table",
+          "label": "Мл по напиткам",
+          "value": "таблица подтверждена",
+          "unit": "",
+          "status": "confirmed",
+          "note": "капучино/латте/раф/флэт/какао/шоколад/матча/мокко"
+        }
+      ]
+    },
+    {
+      "id": "powder",
+      "title": "Какао / шоколад / матча",
+      "items": [
+        {
+          "key": "cocoa_kg",
+          "label": "Какао и горячий шоколад",
+          "value": 1800,
+          "unit": "₽/кг",
+          "status": "confirmed"
+        },
+        {
+          "key": "cocoa_g_est",
+          "label": "Граммы на порцию",
+          "value": 15,
+          "unit": "г",
+          "status": "estimate",
+          "note": "→ ≈27 ₽/напиток; ждём факт"
+        },
+        {
+          "key": "matcha_per_drink",
+          "label": "Матча на порцию",
+          "value": 8,
+          "unit": "₽",
+          "status": "estimate",
+          "note": "нет цены ₽/кг и грамм"
+        }
+      ]
+    },
+    {
+      "id": "packaging",
+      "title": "Стакан и крышка",
+      "items": [
+        {
+          "key": "cup_lid",
+          "label": "Стакан + крышка",
+          "value": 12,
+          "unit": "₽",
+          "status": "confirmed",
+          "note": "на все размеры"
+        }
+      ]
+    },
+    {
+      "id": "alt_milk",
+      "title": "Альтернативное молоко",
+      "items": [
+        {
+          "key": "alt_milk_per_l",
+          "label": "Альт. молоко (вся линейка)",
+          "value": 166,
+          "unit": "₽/л",
+          "status": "confirmed"
+        },
+        {
+          "key": "alt_portion_ml",
+          "label": "Порция на доплату",
+          "value": 100,
+          "unit": "мл",
+          "status": "estimate"
+        },
+        {
+          "key": "alt_addon_price",
+          "label": "Цена доплаты в чеке",
+          "value": 60,
+          "unit": "₽",
+          "status": "estimate",
+          "note": "qty ≈ выручка / 60"
+        }
+      ]
+    },
+    {
+      "id": "other_drinks",
+      "title": "Фреш / чай / лимонад / сироп",
+      "items": [
+        {
+          "key": "fresh_portion",
+          "label": "Фреш",
+          "value": 100,
+          "unit": "₽/порция",
+          "status": "confirmed"
+        },
+        {
+          "key": "tea_portion",
+          "label": "Чай",
+          "value": 15,
+          "unit": "₽/порция",
+          "status": "confirmed"
+        },
+        {
+          "key": "lemonade_cogs",
+          "label": "Лимонад (сырьё)",
+          "value": "неизвестно",
+          "unit": "",
+          "status": "open",
+          "note": "в модели только стакан 12 ₽"
+        },
+        {
+          "key": "raf_syrup_g_350",
+          "label": "Сироп раф 350",
+          "value": 20,
+          "unit": "г",
+          "status": "confirmed"
+        },
+        {
+          "key": "raf_syrup_g_450",
+          "label": "Сироп раф 450",
+          "value": 30,
+          "unit": "г",
+          "status": "confirmed"
+        },
+        {
+          "key": "raf_syrup_kg",
+          "label": "Сироп раф",
+          "value": 500,
+          "unit": "₽/кг",
+          "status": "estimate"
+        }
+      ]
+    },
+    {
+      "id": "fixed",
+      "title": "Фикс точки",
+      "items": [
+        {
+          "key": "rent",
+          "label": "Аренда",
+          "value": 80000,
+          "unit": "₽/мес",
+          "status": "confirmed",
+          "note": "из 160 000 ₽ Росгосстрах = сен+окт"
+        },
+        {
+          "key": "machine",
+          "label": "Кофемашина",
+          "value": 20000,
+          "unit": "₽/мес",
+          "status": "confirmed"
+        },
+        {
+          "key": "kassa",
+          "label": "Касса",
+          "value": 2000,
+          "unit": "₽/мес",
+          "status": "confirmed"
+        },
+        {
+          "key": "internet",
+          "label": "Интернет",
+          "value": 1878.8,
+          "unit": "₽/мес",
+          "status": "confirmed"
+        },
+        {
+          "key": "barista_day",
+          "label": "ЗП сотрудника",
+          "value": 5000,
+          "unit": "₽/день",
+          "status": "confirmed",
+          "note": "× дни с продажами"
+        }
+      ]
+    },
+    {
+      "id": "food",
+      "title": "Еда",
+      "items": [
+        {
+          "key": "food_zakiriev",
+          "label": "Закуп Закариеву (сентябрь)",
+          "value": 126221,
+          "unit": "₽",
+          "status": "confirmed",
+          "note": "весь платёж = закуп на точку"
+        }
+      ]
+    }
+  ]
+}
+;
 
 const fmt = (n, d = 0) =>
   Number(n).toLocaleString("ru-RU", {
@@ -836,9 +1060,82 @@ function fillMix(d) {
 const ANSWERS_URL = "data/barista-answers.json";
 const ANSWERS_LS_KEY = "sorokina_employee_answers_v1";
 
+const STATUS_LABEL = {
+  confirmed: "факт",
+  derived: "расчёт",
+  estimate: "оценка",
+  assumed: "допущение",
+  open: "открыто",
+};
+
+function fmtBookVal(v) {
+  if (typeof v === "number") return fmt(v, Number.isInteger(v) ? 0 : 2);
+  return String(v);
+}
+
+function fillPricebook() {
+  const rootEl = document.getElementById("pricebook");
+  if (!rootEl || !PRICEBOOK) return;
+  const meta = [
+    PRICEBOOK.updated ? `обновлён ${PRICEBOOK.updated}` : "",
+    PRICEBOOK.source || "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+  rootEl.innerHTML = `
+    <div class="po-book__head">
+      <p class="po-kicker">Справочник цен</p>
+      <h3 class="po-book__title">Что двигает расчёт</h3>
+      <p class="po-book__meta">${meta}. Файл <code>data/pricebook.json</code> — можно подменить набор цен целиком.</p>
+    </div>
+    <div class="po-book__groups">
+      ${(PRICEBOOK.groups || [])
+        .map(
+          (g) => `<section class="po-book__group">
+        <h4 class="po-book__group-title">${g.title}</h4>
+        <div class="table-wrap">
+          <table class="po-book__table">
+            <thead><tr><th>Параметр</th><th>Значение</th><th>Статус</th></tr></thead>
+            <tbody>
+              ${(g.items || [])
+                .map((it) => {
+                  const val = [fmtBookVal(it.value), it.unit || ""].filter(Boolean).join(" ");
+                  const st = STATUS_LABEL[it.status] || it.status || "";
+                  const note = it.note
+                    ? `<div class="po-book__note">${it.note}</div>`
+                    : "";
+                  return `<tr class="po-book__row--${it.status || ""}">
+                    <td>${it.label}${note}</td>
+                    <td class="num">${val}</td>
+                    <td><span class="po-book__badge po-book__badge--${it.status || ""}">${st}</span></td>
+                  </tr>`;
+                })
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      </section>`
+        )
+        .join("")}
+    </div>`;
+}
+
 function fillOpen() {
-  document.getElementById("open-questions").innerHTML = OPEN.map(
-    (q) => `<article class="po-q">
+  fillPricebook();
+
+  const openRoot = document.getElementById("open-questions");
+  const formWrap = document.getElementById("employee-form");
+  if (!OPEN.length) {
+    if (openRoot) openRoot.innerHTML = "";
+    if (formWrap) formWrap.hidden = true;
+    return;
+  }
+  if (formWrap) formWrap.hidden = false;
+
+  openRoot.innerHTML =
+    `<p class="po-open__intro">Ещё ${OPEN.length} уточнения — остальное уже в справочнике выше (оценки помечены).</p>` +
+    OPEN.map(
+      (q) => `<article class="po-q">
       <span class="po-q__id">${q.id}</span>
       <div class="po-q__body">
         <h3 class="po-q__title">${q.title}</h3>
@@ -846,25 +1143,11 @@ function fillOpen() {
         <p class="po-q__ask"><strong>Нужно уточнить:</strong> ${q.ask}</p>
         <label class="po-field po-field--block">
           <span class="po-field__label">Пишите ответ сюда</span>
-          <textarea id="ans-${q.id}" name="${q.id}" rows="4" placeholder="Например: подтверждаю / или свои цифры…"></textarea>
+          <textarea id="ans-${q.id}" name="${q.id}" rows="3" placeholder="Цифра или короткий ответ…"></textarea>
         </label>
       </div>
     </article>`
-  ).join("");
-
-  document.getElementById("confirmed-card").innerHTML = `
-    <p class="po-kicker">Зафиксировано</p>
-    <h3 class="po-detail__title">Не трогаем без новой вводной</h3>
-    <ul class="po-detail__list">${CONFIRMED.map((x) => `<li>${x}</li>`).join("")}</ul>`;
-
-  document.getElementById("impact-card").innerHTML = `
-    <p class="po-kicker">Зачем уточнять</p>
-    <h3 class="po-detail__title">Влияние на расчёт</h3>
-    <ul class="po-detail__list">
-      <li>Q1–Q2 напрямую меняют себестоимость чашки и маржу напитков.</li>
-      <li>Q3–Q7 двигают переменные → вклад → норму выручки на день.</li>
-      <li>После ответов сотрудника пересчитаем блок «План дня» и точку безубыточности.</li>
-    </ul>`;
+    ).join("");
 }
 
 function collectAnswers() {

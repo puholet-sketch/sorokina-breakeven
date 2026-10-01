@@ -1,0 +1,264 @@
+{
+  "version": 1,
+  "updated": "2026-10-01",
+  "source": "Андрей 01.10.2026 + модель сентября",
+  "note": "Справочник драйверов расчёта. Можно заменить файл целиком и пересобрать main.js — цифры подтянутся в UI.",
+  "groups": [
+    {
+      "id": "coffee",
+      "title": "Зерно и шоты",
+      "items": [
+        {
+          "key": "coffee_kg_vat",
+          "label": "Зерно",
+          "value": 1700,
+          "unit": "₽/кг",
+          "status": "confirmed"
+        },
+        {
+          "key": "dose_g",
+          "label": "Доза эспрессо",
+          "value": 20,
+          "unit": "г",
+          "status": "confirmed"
+        },
+        {
+          "key": "shot_cost",
+          "label": "Себестоимость шота",
+          "value": 34,
+          "unit": "₽",
+          "status": "derived",
+          "note": "1700 × 20/1000"
+        },
+        {
+          "key": "shots_250_350",
+          "label": "Шоты 250 / 350 мл",
+          "value": 2,
+          "unit": "шт",
+          "status": "confirmed",
+          "note": "пролив 250 ≈ 15 с"
+        },
+        {
+          "key": "shots_450",
+          "label": "Шоты 450 мл",
+          "value": 2,
+          "unit": "шт",
+          "status": "assumed",
+          "note": "как 350-класс"
+        },
+        {
+          "key": "shots_flat_350",
+          "label": "Флэт уайт 350",
+          "value": 4,
+          "unit": "шота",
+          "status": "confirmed"
+        },
+        {
+          "key": "shots_espresso_sku",
+          "label": "Эспрессо / доп. / тоник",
+          "value": 1,
+          "unit": "шот",
+          "status": "assumed"
+        }
+      ]
+    },
+    {
+      "id": "milk",
+      "title": "Молоко",
+      "items": [
+        {
+          "key": "milk_per_l",
+          "label": "Молоко",
+          "value": 87.28,
+          "unit": "₽/л",
+          "status": "confirmed"
+        },
+        {
+          "key": "milk_ml_table",
+          "label": "Мл по напиткам",
+          "value": "таблица подтверждена",
+          "unit": "",
+          "status": "confirmed",
+          "note": "капучино/латте/раф/флэт/какао/шоколад/матча/мокко"
+        }
+      ]
+    },
+    {
+      "id": "powder",
+      "title": "Какао / шоколад / матча",
+      "items": [
+        {
+          "key": "cocoa_kg",
+          "label": "Какао и горячий шоколад",
+          "value": 1800,
+          "unit": "₽/кг",
+          "status": "confirmed"
+        },
+        {
+          "key": "cocoa_g_est",
+          "label": "Граммы на порцию",
+          "value": 15,
+          "unit": "г",
+          "status": "estimate",
+          "note": "→ ≈27 ₽/напиток; ждём факт"
+        },
+        {
+          "key": "matcha_per_drink",
+          "label": "Матча на порцию",
+          "value": 8,
+          "unit": "₽",
+          "status": "estimate",
+          "note": "нет цены ₽/кг и грамм"
+        }
+      ]
+    },
+    {
+      "id": "packaging",
+      "title": "Стакан и крышка",
+      "items": [
+        {
+          "key": "cup_lid",
+          "label": "Стакан + крышка",
+          "value": 12,
+          "unit": "₽",
+          "status": "confirmed",
+          "note": "на все размеры"
+        }
+      ]
+    },
+    {
+      "id": "alt_milk",
+      "title": "Альтернативное молоко",
+      "items": [
+        {
+          "key": "alt_milk_per_l",
+          "label": "Альт. молоко (вся линейка)",
+          "value": 166,
+          "unit": "₽/л",
+          "status": "confirmed"
+        },
+        {
+          "key": "alt_portion_ml",
+          "label": "Порция на доплату",
+          "value": 100,
+          "unit": "мл",
+          "status": "estimate"
+        },
+        {
+          "key": "alt_addon_price",
+          "label": "Цена доплаты в чеке",
+          "value": 60,
+          "unit": "₽",
+          "status": "estimate",
+          "note": "qty ≈ выручка / 60"
+        }
+      ]
+    },
+    {
+      "id": "other_drinks",
+      "title": "Фреш / чай / лимонад / сироп",
+      "items": [
+        {
+          "key": "fresh_portion",
+          "label": "Фреш",
+          "value": 100,
+          "unit": "₽/порция",
+          "status": "confirmed"
+        },
+        {
+          "key": "tea_portion",
+          "label": "Чай",
+          "value": 15,
+          "unit": "₽/порция",
+          "status": "confirmed"
+        },
+        {
+          "key": "lemonade_cogs",
+          "label": "Лимонад (сырьё)",
+          "value": "неизвестно",
+          "unit": "",
+          "status": "open",
+          "note": "в модели только стакан 12 ₽"
+        },
+        {
+          "key": "raf_syrup_g_350",
+          "label": "Сироп раф 350",
+          "value": 20,
+          "unit": "г",
+          "status": "confirmed"
+        },
+        {
+          "key": "raf_syrup_g_450",
+          "label": "Сироп раф 450",
+          "value": 30,
+          "unit": "г",
+          "status": "confirmed"
+        },
+        {
+          "key": "raf_syrup_kg",
+          "label": "Сироп раф",
+          "value": 500,
+          "unit": "₽/кг",
+          "status": "estimate"
+        }
+      ]
+    },
+    {
+      "id": "fixed",
+      "title": "Фикс точки",
+      "items": [
+        {
+          "key": "rent",
+          "label": "Аренда",
+          "value": 80000,
+          "unit": "₽/мес",
+          "status": "confirmed",
+          "note": "из 160 000 ₽ Росгосстрах = сен+окт"
+        },
+        {
+          "key": "machine",
+          "label": "Кофемашина",
+          "value": 20000,
+          "unit": "₽/мес",
+          "status": "confirmed"
+        },
+        {
+          "key": "kassa",
+          "label": "Касса",
+          "value": 2000,
+          "unit": "₽/мес",
+          "status": "confirmed"
+        },
+        {
+          "key": "internet",
+          "label": "Интернет",
+          "value": 1878.8,
+          "unit": "₽/мес",
+          "status": "confirmed"
+        },
+        {
+          "key": "barista_day",
+          "label": "ЗП сотрудника",
+          "value": 5000,
+          "unit": "₽/день",
+          "status": "confirmed",
+          "note": "× дни с продажами"
+        }
+      ]
+    },
+    {
+      "id": "food",
+      "title": "Еда",
+      "items": [
+        {
+          "key": "food_zakiriev",
+          "label": "Закуп Закариеву (сентябрь)",
+          "value": 126221,
+          "unit": "₽",
+          "status": "confirmed",
+          "note": "весь платёж = закуп на точку"
+        }
+      ]
+    }
+  ]
+}

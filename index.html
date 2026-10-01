@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=7" />
+  <link rel="stylesheet" href="assets/css/style.css?v=8" />
 </head>
 <body class="project-office-theme">
   <header class="po-top">
@@ -120,16 +120,17 @@
         </div>
       </section>
 
-      <!-- 05 OPEN QUESTIONS -->
+      <!-- 05 OPEN QUESTIONS + PRICEBOOK -->
       <section class="po-block" id="open">
         <div class="po-block__head">
           <span class="po-num">05</span>
           <div>
-            <h2 class="po-h2">Ответы сотрудника · что ещё открыто</h2>
-            <p class="po-lead">Ответы Андрея от 01.10 уже в модели. Ниже — что учли и что ещё желательно уточнить (граммы какао, мл альт. молока, лимонад, цена сиропа). Можно дописать и снова сохранить.</p>
+            <h2 class="po-h2">Справочник цен · уточнить у сотрудника</h2>
+            <p class="po-lead">Ниже — все драйверы расчёта (факт / оценка / открыто). Форма только по ещё не закрытым пунктам. Новый набор цен можно загрузить через <code>data/pricebook.json</code>.</p>
           </div>
         </div>
-        <form class="po-form" id="employee-form" autocomplete="on">
+        <div class="po-book" id="pricebook"></div>
+        <form class="po-form mt" id="employee-form" autocomplete="on">
           <div class="po-form__meta">
             <label class="po-field">
               <span class="po-field__label">Ваше имя</span>
@@ -142,10 +143,6 @@
             <p class="po-form__status" id="save-status" aria-live="polite"></p>
           </div>
         </form>
-        <div class="po-grid-2 mt">
-          <div class="po-detail__card po-detail__card--ok" id="confirmed-card"></div>
-          <div class="po-detail__card" id="impact-card"></div>
-        </div>
       </section>
 
       <!-- 06 DETAIL -->
@@ -176,7 +173,7 @@
     </div>
   </footer>
 
-  <script src="assets/js/config.js?v=7"></script>
-  <script src="assets/js/main.js?v=7"></script>
+  <script src="assets/js/config.js?v=8"></script>
+  <script src="assets/js/main.js?v=8"></script>
 </body>
 </html>
