@@ -672,12 +672,57 @@ function fillGap(d) {
   );
 }
 
+const TIP_VKLAD =
+  "Вклад — маржинальная прибыль: выручка минус переменные (зерно, молоко, стаканы, еда). Это то, чем покрываем аренду, ЗП и прочий фикс.";
+
+function tipHtml(id, text) {
+  return `<span class="po-tip" data-tip="${id}">
+    <button type="button" class="po-tip__btn" aria-label="Пояснение" aria-expanded="false">?</button>
+    <span class="po-tip__bubble" role="tooltip">${text}</span>
+  </span>`;
+}
+
+function bindTips(root) {
+  const scope = root || document;
+  scope.querySelectorAll(".po-tip").forEach((tip) => {
+    if (tip.dataset.bound) return;
+    tip.dataset.bound = "1";
+    const btn = tip.querySelector(".po-tip__btn");
+    if (!btn) return;
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = tip.classList.toggle("is-open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      document.querySelectorAll(".po-tip.is-open").forEach((other) => {
+        if (other !== tip) {
+          other.classList.remove("is-open");
+          const b = other.querySelector(".po-tip__btn");
+          if (b) b.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  });
+}
+
+document.addEventListener("click", () => {
+  document.querySelectorAll(".po-tip.is-open").forEach((tip) => {
+    tip.classList.remove("is-open");
+    const b = tip.querySelector(".po-tip__btn");
+    if (b) b.setAttribute("aria-expanded", "false");
+  });
+});
+
 function fillEconomics(d) {
   const max = d.revenue.total;
   const rows = [
     { label: "Выручка", value: d.revenue.total, cls: "rev", show: d.revenue.total },
     { label: "\u2212 Переменные", value: d.cogs.total_var, cls: "cost", show: d.cogs.total_var },
-    { label: "= Вклад", value: d.result.contribution, cls: "cm", show: d.result.contribution },
+    {
+      label: `= Вклад${tipHtml("vklad-wf", TIP_VKLAD)}`,
+      value: d.result.contribution,
+      cls: "cm",
+      show: d.result.contribution,
+    },
     { label: "\u2212 Фикс", value: d.fixed.total, cls: "fix", show: d.fixed.total },
     {
       label: "= Результат",
@@ -690,12 +735,13 @@ function fillEconomics(d) {
     .map((r) => {
       const w = Math.max(3, Math.round((r.value / max) * 100));
       return `<div class="wf-row">
-        <div>${r.label}</div>
+        <div class="wf-label">${r.label}</div>
         <div class="wf-track"><div class="wf-fill ${r.cls}" style="width:${w}%"></div></div>
         <div class="wf-val">${rub(Math.round(r.show))}</div>
       </div>`;
     })
     .join("");
+  bindTips(document.getElementById("chart-waterfall"));
 
   document.getElementById("chart-rev-mix").innerHTML = hBars(
     [
@@ -796,3 +842,10 @@ fillEconomics(DATA);
 fillMix(DATA);
 fillOpen();
 fillTables(DATA);
+
+// tips in static HTML (section lead)
+document.querySelectorAll('.po-tip[data-tip="vklad"]').forEach((el) => {
+  if (el.querySelector(".po-tip__btn")) return;
+  el.outerHTML = tipHtml("vklad", TIP_VKLAD);
+});
+bindTips(document);
