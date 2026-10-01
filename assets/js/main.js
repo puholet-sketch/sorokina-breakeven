@@ -632,19 +632,35 @@ function fillPlan(d) {
   document.getElementById("chart-day-compare").innerHTML =
     series
       .map((s) => {
+        // Шкала от ~55% максимума — разрыв факт/норма читается сильнее
         const max = Math.max(s.fact, s.target) || 1;
-        const hF = Math.max(4, Math.round((s.fact / max) * 140));
-        const hT = Math.max(4, Math.round((s.target / max) * 140));
+        const floor = max * 0.55;
+        const span = Math.max(max - floor, 1);
+        const pct = (v) => Math.max(6, Math.round(((v - floor) / span) * 100));
+        const pF = pct(s.fact);
+        const pT = pct(s.target);
+        const gapPct = Math.max(0, Math.round((1 - s.fact / max) * 100));
         return `<div class="bc-col">
-        <div class="bc-bars">
-          <div class="bc-bar-wrap"><div class="bc-bar fact" style="height:${hF}px"></div><div class="bc-val">${s.fLab}</div></div>
-          <div class="bc-bar-wrap"><div class="bc-bar target" style="height:${hT}px"></div><div class="bc-val">${s.tLab}</div></div>
+        <div class="bc-bars" style="--bc-floor:55%">
+          <div class="bc-bar-wrap">
+            <div class="bc-track">
+              <div class="bc-bar fact" style="height:${pF}%"></div>
+            </div>
+            <div class="bc-val">${s.fLab}</div>
+          </div>
+          <div class="bc-bar-wrap">
+            <div class="bc-track">
+              <div class="bc-bar target" style="height:${pT}%"></div>
+            </div>
+            <div class="bc-val">${s.tLab}</div>
+          </div>
         </div>
         <div class="bc-label">${s.label}</div>
+        <div class="bc-gap">разрыв ${gapPct}%</div>
       </div>`;
       })
       .join("") +
-    `<div class="bc-legend"><span><i class="fact"></i>Факт</span><span><i class="target"></i>Норма на ноль</span></div>`;
+    `<div class="bc-legend"><span><i class="fact"></i>Факт</span><span><i class="target"></i>Норма на ноль</span><span class="bc-legend-note">шкала от 55% нормы</span></div>`;
 }
 
 function fillGap(d) {
