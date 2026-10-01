@@ -20,21 +20,30 @@
     "dose_g": 20,
     "shot_cost": 34.0,
     "milk_per_l": 87.28,
-    "cup_lid_est": 12.0
+    "cup_lid_est": 12.0,
+    "cocoa_kg": 1800.0,
+    "cocoa_g_est": 15.0,
+    "cocoa_per_drink": 27.0,
+    "alt_milk_per_l": 166.0,
+    "fresh_portion": 100.0,
+    "tea_portion": 15.0,
+    "raf_syrup_kg_est": 500.0
   },
   "cogs": {
-    "coffee": 28220.0,
+    "coffee": 35904.0,
     "milk": 12285.53,
     "cups": 7680.0,
-    "powder_est": 1024.0,
-    "drinks_total": 49209.53,
+    "powder_est": 3504.0,
+    "raf_syrup_est": 580.0,
+    "alt_milk_est": 1992.0,
+    "drinks_total": 59373.53,
     "food_zakiriev": 126221.0,
-    "total_var": 175430.53
+    "total_var": 187586.53
   },
   "markup": {
     "food_pct": 16.5,
     "food_revenue_over_cost": 1.17,
-    "drinks_margin_pct": 71.6
+    "drinks_margin_pct": 65.7
   },
   "fixed": {
     "rent": 80000,
@@ -49,20 +58,20 @@
     "note_barista": "5 000 ₽/день × дни с продажами"
   },
   "result": {
-    "contribution": 152171.47,
-    "after_fixed": -61707.33,
-    "cm_per_cup": 193.89,
+    "contribution": 140015.47,
+    "after_fixed": -73863.33,
+    "cm_per_cup": 178.01,
     "cm_per_food": 34.8
   },
   "breakeven": {
-    "at_current_mix_factor": 1.41,
-    "revenue_needed": 460448.48,
-    "cups_month": 900.0,
-    "cups_day": 40.9,
-    "food_items_month": 843.0,
-    "food_items_day": 38.4,
-    "cups_only_month": 995.0,
-    "cups_only_day": 45.3
+    "at_current_mix_factor": 1.53,
+    "revenue_needed": 500424.16,
+    "cups_month": 978.0,
+    "cups_day": 44.4,
+    "food_items_month": 917.0,
+    "food_items_day": 41.7,
+    "cups_only_month": 1201.0,
+    "cups_only_day": 54.6
   },
   "drinks": [
     {
@@ -72,42 +81,42 @@
       "revenue": 41736.0,
       "shots": 2,
       "milk_ml": 300,
-      "cogs": 14866.79,
-      "cogs_unit": 106.19,
-      "margin_unit": 243.81
+      "cogs": 14865.76,
+      "cogs_unit": 106.18,
+      "margin_unit": 243.82
     },
     {
       "name": "капучино 350",
       "qty": 151.0,
       "price": 300.0,
       "revenue": 38280.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 220,
-      "cogs": 9846.0,
-      "cogs_unit": 65.21,
-      "margin_unit": 234.79
+      "cogs": 14979.44,
+      "cogs_unit": 99.2,
+      "margin_unit": 200.8
     },
     {
       "name": "какао брют 350",
       "qty": 35.0,
       "price": 320.0,
       "revenue": 10356.0,
-      "shots": 1,
+      "shots": 0,
       "milk_ml": 250,
-      "cogs": 2793.83,
-      "cogs_unit": 79.82,
-      "margin_unit": 240.18
+      "cogs": 2128.7,
+      "cogs_unit": 60.82,
+      "margin_unit": 259.18
     },
     {
       "name": "латте 350",
       "qty": 36.0,
       "price": 300.0,
       "revenue": 9890.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 250,
-      "cogs": 2441.65,
-      "cogs_unit": 67.82,
-      "margin_unit": 232.18
+      "cogs": 3665.52,
+      "cogs_unit": 101.82,
+      "margin_unit": 198.18
     },
     {
       "name": "латте 450",
@@ -116,20 +125,20 @@
       "revenue": 9265.0,
       "shots": 2,
       "milk_ml": 350,
-      "cogs": 3427.22,
-      "cogs_unit": 110.56,
-      "margin_unit": 239.44
+      "cogs": 3426.99,
+      "cogs_unit": 110.55,
+      "margin_unit": 239.45
     },
     {
       "name": "горячий шоколад 350",
       "qty": 29.0,
       "price": 350.0,
       "revenue": 8595.0,
-      "shots": 1,
+      "shots": 0,
       "milk_ml": 250,
-      "cogs": 2314.89,
-      "cogs_unit": 79.82,
-      "margin_unit": 270.18
+      "cogs": 1763.78,
+      "cogs_unit": 60.82,
+      "margin_unit": 289.18
     },
     {
       "name": "раф 450",
@@ -138,42 +147,42 @@
       "revenue": 8296.0,
       "shots": 2,
       "milk_ml": 280,
-      "cogs": 2715.59,
-      "cogs_unit": 104.45,
-      "margin_unit": 199.55
+      "cogs": 3105.4,
+      "cogs_unit": 119.44,
+      "margin_unit": 184.56
     },
     {
       "name": "Айс латте",
       "qty": 20.0,
       "price": 280.0,
       "revenue": 5406.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 250,
-      "cogs": 1356.47,
-      "cogs_unit": 67.82,
-      "margin_unit": 212.18
+      "cogs": 2036.4,
+      "cogs_unit": 101.82,
+      "margin_unit": 178.18
     },
     {
       "name": "флет Уайт 350",
       "qty": 17.0,
       "price": 330.0,
       "revenue": 5297.0,
-      "shots": 2,
+      "shots": 4,
       "milk_ml": 180,
-      "cogs": 1627.2,
-      "cogs_unit": 95.72,
-      "margin_unit": 234.28
+      "cogs": 2783.08,
+      "cogs_unit": 163.71,
+      "margin_unit": 166.29
     },
     {
       "name": "раф 350",
       "qty": 19.0,
       "price": 340.0,
       "revenue": 5144.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 200,
-      "cogs": 1205.73,
-      "cogs_unit": 63.46,
-      "margin_unit": 276.54
+      "cogs": 2041.66,
+      "cogs_unit": 107.46,
+      "margin_unit": 232.54
     },
     {
       "name": "Эспрессо Тоник",
@@ -182,7 +191,7 @@
       "revenue": 4406.0,
       "shots": 1,
       "milk_ml": 0,
-      "cogs": 598.05,
+      "cogs": 598.0,
       "cogs_unit": 46.0,
       "margin_unit": 334.0
     },
@@ -191,44 +200,44 @@
       "qty": 19.0,
       "price": 100.0,
       "revenue": 4170.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 150,
-      "cogs": 1122.82,
-      "cogs_unit": 59.1,
-      "margin_unit": 40.9
+      "cogs": 1768.75,
+      "cogs_unit": 93.09,
+      "margin_unit": 6.91
     },
     {
       "name": "матча 350",
       "qty": 14.0,
       "price": 300.0,
       "revenue": 4070.0,
-      "shots": 1,
+      "shots": 0,
       "milk_ml": 250,
-      "cogs": 1061.53,
-      "cogs_unit": 75.82,
-      "margin_unit": 224.18
+      "cogs": 585.48,
+      "cogs_unit": 41.82,
+      "margin_unit": 258.18
     },
     {
       "name": "американо 350",
       "qty": 16.0,
       "price": 220.0,
       "revenue": 3386.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 0,
-      "cogs": 736.06,
-      "cogs_unit": 46.0,
-      "margin_unit": 174.0
+      "cogs": 1280.0,
+      "cogs_unit": 80.0,
+      "margin_unit": 140.0
     },
     {
       "name": "американо 250",
       "qty": 15.0,
       "price": 160.0,
       "revenue": 2564.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 0,
-      "cogs": 690.06,
-      "cogs_unit": 46.0,
-      "margin_unit": 114.0
+      "cogs": 1200.0,
+      "cogs_unit": 80.0,
+      "margin_unit": 80.0
     },
     {
       "name": "Китайский чай",
@@ -237,20 +246,20 @@
       "revenue": 1920.0,
       "shots": 0,
       "milk_ml": 0,
-      "cogs": 132.0,
-      "cogs_unit": 12.0,
-      "margin_unit": 188.0
+      "cogs": 297.0,
+      "cogs_unit": 27.0,
+      "margin_unit": 173.0
     },
     {
       "name": "какао 350",
       "qty": 7.0,
       "price": 252.0,
       "revenue": 1618.0,
-      "shots": 1,
+      "shots": 0,
       "milk_ml": 250,
-      "cogs": 558.77,
-      "cogs_unit": 79.82,
-      "margin_unit": 172.18
+      "cogs": 425.74,
+      "cogs_unit": 60.82,
+      "margin_unit": 191.18
     },
     {
       "name": "флет Уайт 250",
@@ -259,9 +268,9 @@
       "revenue": 1563.0,
       "shots": 2,
       "milk_ml": 150,
-      "cogs": 558.6,
-      "cogs_unit": 93.1,
-      "margin_unit": 176.9
+      "cogs": 558.55,
+      "cogs_unit": 93.09,
+      "margin_unit": 176.91
     },
     {
       "name": "Фреш 350 мл",
@@ -270,9 +279,9 @@
       "revenue": 1353.0,
       "shots": 0,
       "milk_ml": 0,
-      "cogs": 48.0,
-      "cogs_unit": 12.0,
-      "margin_unit": 268.0
+      "cogs": 448.0,
+      "cogs_unit": 112.0,
+      "margin_unit": 168.0
     },
     {
       "name": "Чай Эрл Грей",
@@ -281,9 +290,9 @@
       "revenue": 1300.0,
       "shots": 0,
       "milk_ml": 0,
-      "cogs": 120.0,
-      "cogs_unit": 12.0,
-      "margin_unit": 118.0
+      "cogs": 270.0,
+      "cogs_unit": 27.0,
+      "margin_unit": 103.0
     },
     {
       "name": "Лимонады",
@@ -303,7 +312,7 @@
       "revenue": 720.0,
       "shots": 1,
       "milk_ml": 0,
-      "cogs": 184.01,
+      "cogs": 184.0,
       "cogs_unit": 46.0,
       "margin_unit": 134.0
     },
@@ -312,11 +321,11 @@
       "qty": 2.0,
       "price": 320.0,
       "revenue": 608.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 250,
-      "cogs": 159.65,
-      "cogs_unit": 79.83,
-      "margin_unit": 240.17
+      "cogs": 257.64,
+      "cogs_unit": 128.82,
+      "margin_unit": 191.18
     },
     {
       "name": "американо 450",
@@ -325,7 +334,7 @@
       "revenue": 560.0,
       "shots": 2,
       "milk_ml": 0,
-      "cogs": 160.01,
+      "cogs": 160.0,
       "cogs_unit": 80.0,
       "margin_unit": 200.0
     },
@@ -334,22 +343,22 @@
       "qty": 2.0,
       "price": 300.0,
       "revenue": 480.0,
-      "shots": 1,
+      "shots": 0,
       "milk_ml": 350,
-      "cogs": 177.1,
-      "cogs_unit": 88.55,
-      "margin_unit": 211.45
+      "cogs": 139.1,
+      "cogs_unit": 69.55,
+      "margin_unit": 230.45
     },
     {
       "name": "Бамбл Кофе 350",
       "qty": 1.0,
       "price": 378.0,
       "revenue": 378.0,
-      "shots": 1,
+      "shots": 2,
       "milk_ml": 0,
-      "cogs": 46.0,
-      "cogs_unit": 46.0,
-      "margin_unit": 332.0
+      "cogs": 80.0,
+      "cogs_unit": 80.0,
+      "margin_unit": 298.0
     },
     {
       "name": "мокко 450",
@@ -358,9 +367,9 @@
       "revenue": 315.0,
       "shots": 2,
       "milk_ml": 350,
-      "cogs": 122.56,
-      "cogs_unit": 122.56,
-      "margin_unit": 192.44
+      "cogs": 137.55,
+      "cogs_unit": 137.55,
+      "margin_unit": 177.45
     },
     {
       "name": "Чай Чабрец",
@@ -369,9 +378,9 @@
       "revenue": 260.0,
       "shots": 0,
       "milk_ml": 0,
-      "cogs": 24.0,
-      "cogs_unit": 12.0,
-      "margin_unit": 118.0
+      "cogs": 54.0,
+      "cogs_unit": 27.0,
+      "margin_unit": 103.0
     },
     {
       "name": "Травяной чай",
@@ -380,9 +389,9 @@
       "revenue": 184.0,
       "shots": 0,
       "milk_ml": 0,
-      "cogs": 12.0,
-      "cogs_unit": 12.0,
-      "margin_unit": 172.0
+      "cogs": 27.0,
+      "cogs_unit": 27.0,
+      "margin_unit": 157.0
     },
     {
       "name": "Доп Эспрессо",
@@ -459,13 +468,28 @@
     }
   ],
   "assumptions": [
-    "Доза эспрессо 20 г, зерно 1 700 ₽/кг.",
-    "Шоты: 250 мл — 1, 350 мл — 1, 450 мл — 2; флэт уайт — 2.",
-    "Молоко мл — по согласованной таблице; цена 87,28 ₽/л.",
-    "Какао/шоколад/матча — оценка порошка (нет цены в УПД).",
-    "Стакан+крышка ~12 ₽/напиток (оценка по УПД).",
+    "Доза эспрессо 20 г, зерно 1 700 ₽/кг (подтверждено).",
+    "Шоты (Андрей 01.10): 250 мл = 2, 350 мл = 2, флэт уайт 350 = 4; 450 мл = 2; флэт 250 = 2.",
+    "Эспрессо / доп. эспрессо / эспрессо-тоник = 1 шот (размер не указан).",
+    "Айс латте = 2 шота (как 350-класс). Какао/шоколад/матча = 0 шотов эспрессо.",
+    "Молоко мл — подтверждено Андреем; цена 87,28 ₽/л.",
+    "Какао/шоколад/мокко: 1 800 ₽/кг × ~15 г ≈ 27 ₽/напиток (граммы — оценка).",
+    "Матча — прежняя оценка ~8 ₽/напиток (новых данных нет).",
+    "Стакан+крышка ~12 ₽ (подтверждено).",
+    "Альт. молоко 166 ₽/л; qty≈выручка/60₽, порция ~100 мл → COGS ~1992 ₽.",
+    "Фреш 100 ₽/порция; чай 15 ₽/порция (Андрей).",
+    "Лимонады: сырьё неизвестно → только стакан 12 ₽.",
+    "Сироп раф: 20 г@350 / 30 г@450; цена сиропа оценка 500 ₽/кг (нет факта).",
     "Весь платёж Закариеву за сентябрь = закуп еды/товаров на точку.",
-    "Альтернативное молоко: выручка учтена, себестоимость неизвестна.",
     "ЗП бариста 5 000 ₽/день × 22 дня смен."
-  ]
+  ],
+  "addons_detail": {
+    "name": "альтернативное молоко",
+    "revenue": 7200.0,
+    "price_est_per_addon": 60.0,
+    "qty_est": 120.0,
+    "portion_ml_est": 100.0,
+    "liters_est": 12.0,
+    "cogs_est": 1992.0
+  }
 }
