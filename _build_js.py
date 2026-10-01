@@ -231,13 +231,19 @@ function fillGap(d) {
   );
 }
 
-const TIP_VKLAD =
-  "Вклад — маржинальная прибыль: выручка минус переменные (зерно, молоко, стаканы, еда). Это то, чем покрываем аренду, ЗП и прочий фикс.";
+const TIPS = {
+  rev: "Выручка — всё, что пробили по кассе за месяц: напитки, еда и допы.",
+  var: "Переменные — себестоимость продаж: зерно, молоко, стаканы, еда (закуп Закариеву) и оценки порошков.",
+  vklad: "Вклад — маржинальная прибыль: выручка минус переменные. Этим покрываем аренду, ЗП и прочий фикс.",
+  fix: "Фикс — постоянные расходы месяца: аренда, кофемашина, касса, интернет, ЗП сотрудника точки.",
+  result: "Результат — вклад минус фикс. Плюс = точка в плюсе, минус = не хватило на постоянные расходы.",
+};
 
 function tipHtml(id, text) {
+  const body = text || TIPS[id] || "";
   return `<span class="po-tip" data-tip="${id}">
     <button type="button" class="po-tip__btn" aria-label="Пояснение" aria-expanded="false">?</button>
-    <span class="po-tip__bubble" role="tooltip">${text}</span>
+    <span class="po-tip__bubble" role="tooltip">${body}</span>
   </span>`;
 }
 
@@ -274,17 +280,12 @@ document.addEventListener("click", () => {
 function fillEconomics(d) {
   const max = d.revenue.total;
   const rows = [
-    { label: "Выручка", value: d.revenue.total, cls: "rev", show: d.revenue.total },
-    { label: "\u2212 Переменные", value: d.cogs.total_var, cls: "cost", show: d.cogs.total_var },
+    { label: `Выручка${tipHtml("rev")}`, value: d.revenue.total, cls: "rev", show: d.revenue.total },
+    { label: `\u2212 Переменные${tipHtml("var")}`, value: d.cogs.total_var, cls: "cost", show: d.cogs.total_var },
+    { label: `= Вклад${tipHtml("vklad")}`, value: d.result.contribution, cls: "cm", show: d.result.contribution },
+    { label: `\u2212 Фикс${tipHtml("fix")}`, value: d.fixed.total, cls: "fix", show: d.fixed.total },
     {
-      label: `= Вклад${tipHtml("vklad-wf", TIP_VKLAD)}`,
-      value: d.result.contribution,
-      cls: "cm",
-      show: d.result.contribution,
-    },
-    { label: "\u2212 Фикс", value: d.fixed.total, cls: "fix", show: d.fixed.total },
-    {
-      label: "= Результат",
+      label: `= Результат${tipHtml("result")}`,
       value: Math.abs(d.result.after_fixed),
       cls: d.result.after_fixed < 0 ? "result-neg" : "result-pos",
       show: d.result.after_fixed,
@@ -577,9 +578,10 @@ bindEmployeeForm();
 loadAnswers();
 
 // tips in static HTML (section lead)
-document.querySelectorAll('.po-tip[data-tip="vklad"]').forEach((el) => {
+document.querySelectorAll(".po-tip[data-tip]").forEach((el) => {
   if (el.querySelector(".po-tip__btn")) return;
-  el.outerHTML = tipHtml("vklad", TIP_VKLAD);
+  const id = el.getAttribute("data-tip");
+  el.outerHTML = tipHtml(id, TIPS[id]);
 });
 bindTips(document);
 """
