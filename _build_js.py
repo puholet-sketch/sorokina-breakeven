@@ -356,11 +356,11 @@ function fillOpen() {
       <span class="po-q__id">${q.id}</span>
       <div class="po-q__body">
         <h3 class="po-q__title">${q.title}</h3>
-        <p class="po-q__now"><strong>В модели сейчас:</strong> ${q.now}</p>
-        <p class="po-q__ask">${q.ask}</p>
+        <p class="po-q__now">${q.now}</p>
+        <p class="po-q__ask"><strong>Нужно уточнить:</strong> ${q.ask}</p>
         <label class="po-field po-field--block">
-          <span class="po-field__label">Ответ сотрудника</span>
-          <textarea id="ans-${q.id}" name="${q.id}" rows="3" placeholder="Введите ответ…"></textarea>
+          <span class="po-field__label">Пишите ответ сюда</span>
+          <textarea id="ans-${q.id}" name="${q.id}" rows="4" placeholder="Например: подтверждаю / или свои цифры…"></textarea>
         </label>
       </div>
     </article>`
